@@ -1,0 +1,11 @@
+SELECT t1.`Employee Name`, t1.`Position ID`
+FROM `project`.`assignment_timecard` t1
+JOIN `project`.`assignment_timecard` t2 ON t1.`Employee Name` = t2.`Employee Name`
+WHERE STR_TO_DATE(t1.`Time`, '%m/%d/%Y %h:%i %p') BETWEEN '2023-09-10 00:00:00' AND '2023-09-23 23:59:59'
+  AND STR_TO_DATE(t2.`Time`, '%m/%d/%Y %h:%i %p') BETWEEN '2023-09-10 00:00:00' AND '2023-09-23 23:59:59'
+  AND TIMEDIFF(
+    STR_TO_DATE(t1.`Time`, '%m/%d/%Y %h:%i %p'),
+    STR_TO_DATE(t2.`Time Out`, '%m/%d/%Y %h:%i %p')
+  ) BETWEEN '01:00:00' AND '10:00:00'
+  AND t1.`Time` <> t2.`Time`
+GROUP BY t1.`Employee Name`, t1.`Position ID`;
